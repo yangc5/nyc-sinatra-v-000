@@ -1,0 +1,30 @@
+<!--   it "allows you to edit a single figure" do
+    @figure = Figure.first
+    visit "/figures/#{@figure.id}/edit"
+    fill_in :figure_name, with: "Missy"
+    fill_in :new_landmark, with: "Big Tower"
+    click_button "Edit Figure"
+    @figure = Figure.first
+    expect(page.current_path).to eq("/figures/#{@figure.id}")
+    expect(page.body).to include(@figure.name)
+
+    expect(page.body).to include("Big Tower")
+    expect(@figure.name).to eq("Missy")
+
+  end -->
+
+
+
+<form method="POST" action="<%="/figures/#{@figure.id}"%>">
+  <input type='text' name='figure[name]' id='figure_name' value="<%=@figure.name%>">
+  <% @titles.each do |title| %>
+    <%= title.name %>  <input type='checkbox' name='figure[title_ids][]' id="<%="title_#{title.id}"%>" value="<%= title.id %>">
+  <% end %>
+  <% @landmarks.each do |landmark| %>
+    <%= landmark.name %>  <input type='checkbox' name='figure[landmark_ids][]' id="<%="landmark_#{landmark.id}"%>" value="<%= landmark.id %>">
+  <% end %>
+  Landmark: <input type='text' name='landmark[name]' id='new_landmark'>
+  Title: <input type='text' name='title[name]'  id='new_title'>
+  <input type='submit' value='Create New Figure'>
+  <input type='submit' value='Edit Figure'>
+</form>
